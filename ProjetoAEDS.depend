@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1657061940 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\projetoaeds\main.cpp
+	<iostream>
+	<string>
+	"alunos.h"
+	"livros.h"
+
+1657050991 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\projetoaeds\alunos.h
+	<iostream>
+	<string>
+
+1657053659 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\projetoaeds\alunos.cpp
+	<iostream>
+	<string>
+	"alunos.h"
+
+1657062414 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\projetoaeds\livros.cpp
+	<iostream>
+	<string>
+	"alunos.h"
+
+1657058771 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\projetoaeds\livros.h
+	<iostream>
+	<string>
+	"alunos.h"
+
