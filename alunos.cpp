@@ -1,6 +1,14 @@
 #include <iostream>
 #include <string>
 #include "alunos.h"
+#include <stdlib.h>
+
+#include <cstdlib>
+#ifdef __linux__
+    #define CLEAR "clear"
+#elif _WIN32
+    #define CLEAR "cls"
+#endif
 
 using namespace std;
 
@@ -84,7 +92,7 @@ void inserir_aluno(struct alunos *cab, int id) {
     getline(cin, p->matricula);
     p->id = id;
     p->pendencia = 0;
-    system("cls");
+    system(CLEAR);
     cout << "Aluno " << p->nome << " cadastrado com sucesso!" << endl;
 }
 
@@ -96,7 +104,7 @@ void remover_aluno(struct alunos *cab) {
     cin >> id;
     p = busca_aluno_ant(cab, id, &ant);
 
-    system("cls");
+    system(CLEAR);
     if (p != NULL) {
         if(p->pendencia == 0){
             ant->prox = p->prox;

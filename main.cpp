@@ -1,8 +1,17 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include "alunos.h"
 #include "livros.h"
-//#include "salas.h"
+#include "infraestrutura.h"
+#include "arquivo.h"
+
+#include <cstdlib>
+#ifdef __linux__
+	#define CLEAR "clear"
+#elif _WIN32
+	#define CLEAR "cls"
+#endif
 
 using namespace std;
 
@@ -24,31 +33,31 @@ struct livros{
     struct livros* prox;
 };
 
-struct salas{
+struct infraestrutura{
     int id;
     int tipo;
     int estado;
     int id_aluno;
-    struct sala* prox;
+    struct infraestrutura* prox;
 };
 
 
 int main()
 {
-    struct alunos* cab_alunos = (struct alunos*) malloc (sizeof(struct alunos)); //criação do cabeça de cada uma das listas encadeadas
+    struct alunos* cab_alunos = new alunos(); //criação do cabeça de cada uma das listas encadeadas
     cab_alunos->prox = NULL;
 
-    struct livros* cab_livros = (struct livros*) malloc (sizeof(struct livros));
+    struct livros* cab_livros = new livros();
     cab_livros->prox = NULL;
 
-    struct salas* cab_salas = (struct salas*) malloc (sizeof(struct salas));
-    cab_salas->prox = NULL;
+    struct infraestrutura* cab_infraestrutura = new infraestrutura();
+    cab_infraestrutura->prox = NULL;
 
-    int id_aluno = 1; //IDs gerados automaticamente pela bilioteca
-    int id_livro = 1;
+    int id_aluno = 0; //IDs gerados automaticamente pela bilioteca
+    int id_livro = 0;
+    int num_infraestrutura = 0;
 
-    string nome;
-    string matricula;
+    iniciar(cab_alunos, cab_livros, cab_infraestrutura, &id_aluno, &id_livro, &num_infraestrutura);
 
     int opcao;
 
@@ -67,19 +76,25 @@ int main()
         cout << "8 - Buscar livro" << endl;
         cout << "9 - Emprestar livro" << endl;
         cout << "10 - Devolver livro\n" << endl;
-        cout << "11 - Encerrar o programa" << endl;
+        cout << "11 - Adicionar infraestrutura" << endl;
+        cout << "12 - Remover infraestrutura" << endl;
+        cout << "13 - Listar todas as infraestruturas" << endl;
+        cout << "14 - Buscar infraestrutura" << endl;
+        cout << "15 - Ocupar recurso" << endl;
+        cout << "16 - Desocupar recurso\n" << endl;
+        cout << "17 - Encerrar o programa" << endl;
         cout << "Digite: " << endl;
         cin >> opcao;
 
-        system("cls");
+        system(CLEAR);
 
         switch (opcao){
             case 1:
                 imprimir_todos_alunos(cab_alunos);
                 break;
             case 2:
-                inserir_aluno(cab_alunos, id_aluno);
                 id_aluno++;
+                inserir_aluno(cab_alunos, id_aluno);
                 break;
             case 3:
                 remover_aluno(cab_alunos);
@@ -88,8 +103,8 @@ int main()
                 imprimir_aluno(cab_alunos);
                 break;
             case 5:
-                inserir_livro(cab_livros, id_livro);
                 id_livro++;
+                inserir_livro(cab_livros, id_livro);
                 break;
             case 6:
                 remover_livro(cab_livros);
@@ -107,7 +122,31 @@ int main()
                 devolver_livro(cab_livros, cab_alunos);
                 break;
             case 11:
+                num_infraestrutura++;
+                inserir_infraestrutura(cab_infraestrutura);
+                break;
+            case 12:
+                remover_infraestrutura(cab_infraestrutura);
+                break;
+            case 13:
+                imprimir_toda_infraestrutura(cab_infraestrutura, cab_alunos);
+                break;
+            case 14:
+                imprimir_infraestrutura(cab_infraestrutura, cab_alunos);
+                break;
+            case 15:
+                emprestar_infraestrutura(cab_infraestrutura, cab_alunos);
+                break;
+            case 16:
+                devolver_infraestrutura(cab_infraestrutura, cab_alunos);
+                break;
+            case 17:
+                encerrar(cab_alunos,cab_livros, cab_infraestrutura, id_aluno, id_livro, num_infraestrutura);
                 enq = 0;
+                break;
+            default:
+                cout << "Opcao invalida, tente novamente." << endl;
+                break;
         }
     }
 

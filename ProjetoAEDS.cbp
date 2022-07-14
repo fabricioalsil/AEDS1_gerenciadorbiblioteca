@@ -34,6 +34,10 @@
 		</Compiler>
 		<Unit filename="alunos.cpp" />
 		<Unit filename="alunos.h" />
+		<Unit filename="arquivo.cpp" />
+		<Unit filename="arquivo.h" />
+		<Unit filename="infraestrutura.cpp" />
+		<Unit filename="infraestrutura.h" />
 		<Unit filename="livros.cpp" />
 		<Unit filename="livros.h" />
 		<Unit filename="main.cpp" />

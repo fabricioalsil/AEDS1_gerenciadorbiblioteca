@@ -1,6 +1,14 @@
 #include <iostream>
 #include <string>
 #include "alunos.h"
+#include <stdlib.h>
+
+#include <cstdlib>
+#ifdef __linux__
+    #define CLEAR "clear"
+#elif _WIN32
+    #define CLEAR "cls"
+#endif
 
 using namespace std;
 
@@ -134,7 +142,7 @@ void inserir_livro(struct livros *cab, int id) {
     cin >> p->ano;
     p->id = id;
     p->estado = 0;
-    system("cls");
+    system(CLEAR);
     cout << "Livro " << p->nome << " de " << p->ano << " cadastrado com sucesso!" << endl;
 }
 
@@ -146,7 +154,7 @@ void remover_livro(struct livros *cab) {
     cin >> id;
     p = busca_livro_ant(cab, id, &ant);
 
-    system("cls");
+    system(CLEAR);
     if (p != NULL) {
         if (p->estado == 0){
             ant->prox = p->prox;
@@ -178,7 +186,7 @@ void emprestar_livro(struct livros *cab, struct alunos *cab_alunos){
         return;
     }
 
-    system("cls");
+    system(CLEAR);
 
     cout << "Digite o ID do aluno que deseja o livro: ";
     cin >> id_aluno;
@@ -189,7 +197,7 @@ void emprestar_livro(struct livros *cab, struct alunos *cab_alunos){
         return;
     }
 
-    system("cls");
+    system(CLEAR);
 
     cout << "Livro emprestado com sucesso!" << endl;
     aluno->pendencia++;
@@ -215,7 +223,7 @@ void devolver_livro(struct livros *cab, struct alunos *cab_alunos){
         return;
     }
 
-    system("cls");
+    system(CLEAR);
 
     cout << "Digite o ID do livro a ser devolvido: ";
     cin >> id_livro;
@@ -232,7 +240,7 @@ void devolver_livro(struct livros *cab, struct alunos *cab_alunos){
         return;
     }
 
-    system("cls");
+    system(CLEAR);
 
     cout << "Livro devolvido com sucesso" << endl;
     livro->estado = 0;

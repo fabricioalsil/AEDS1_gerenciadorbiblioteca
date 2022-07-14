@@ -1,5 +1,13 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+
+#include <cstdlib>
+#ifdef __linux__
+	#define CLEAR "clear"
+#elif _WIN32
+	#define CLEAR "cls"
+#endif
 
 using namespace std;
 

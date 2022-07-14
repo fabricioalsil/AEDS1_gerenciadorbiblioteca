@@ -24,3 +24,76 @@
 	<string>
 	"alunos.h"
 
+1657649978 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\alunos.cpp
+	<iostream>
+	<string>
+	"alunos.h"
+	<stdlib.h>
+	<cstdlib>
+
+1657649980 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\alunos.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	<cstdlib>
+
+1657649980 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\livros.cpp
+	<iostream>
+	<string>
+	"alunos.h"
+	<stdlib.h>
+	<cstdlib>
+
+1657767038 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\main.cpp
+	<iostream>
+	<string>
+	<stdlib.h>
+	"alunos.h"
+	"livros.h"
+	"infraestrutura.h"
+	"arquivo.h"
+	<cstdlib>
+
+1657649980 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\livros.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	"alunos.h"
+	<cstdlib>
+
+1657753212 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\infraestrutura.cpp
+	<iostream>
+	<string>
+	<stdlib.h>
+	"alunos.h"
+	"livros.h"
+	"infraestrutura.h"
+	<cstdlib>
+
+1657753212 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\infraestrutura.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	"alunos.h"
+	<cstdlib>
+
+1657764173 c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\arquivo.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	"alunos.h"
+	"livros.h"
+	"infraestrutura.h"
+	<cstdlib>
+
+1657767064 source:c:\users\fabri\onedrive\documentos\fabrício\aeds1\trabalhoaeds1\aeds1_gerenciadorbiblioteca\arquivo.cpp
+	<iostream>
+	<string>
+	<stdlib.h>
+	<fstream>
+	"alunos.h"
+	"livros.h"
+	"infraestrutura.h"
+	"arquivo.h"
+	<cstdlib>
+
