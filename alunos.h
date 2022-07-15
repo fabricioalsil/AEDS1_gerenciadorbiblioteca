@@ -1,30 +1,14 @@
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-
-#include <cstdlib>
-#ifdef __linux__
-	#define CLEAR "clear"
-#elif _WIN32
-	#define CLEAR "cls"
-#endif
-
-using namespace std;
-
 #ifndef ALUNOS_H_INCLUDED
 #define ALUNOS_H_INCLUDED
 
+#include "cabecalho.h"
 
-void imprimir_todos_alunos(struct alunos *cab_alunos);
+void imprimir_todos_alunos(struct alunos **cab, int *id_aluno);
 
-struct alunos *busca_aluno(struct alunos *cab, int id);
+void imprimir_aluno(struct alunos **cab, int *id_aluno);
 
-struct alunos *busca_aluno_ant(struct alunos *cab, int id, struct alunos **ant);
+void inserir_aluno(struct alunos **cab, int *id_aluno);
 
-void imprimir_aluno(struct alunos *cab);
-
-void inserir_aluno(struct alunos *cab, int id);
-
-void remover_aluno(struct alunos *cab);
+void remover_aluno(struct alunos **cab, int *id_aluno);
 
 #endif // ALUNOS_H_INCLUDED

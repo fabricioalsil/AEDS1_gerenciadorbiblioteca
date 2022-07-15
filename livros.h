@@ -1,34 +1,18 @@
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include "alunos.h"
-
-#include <cstdlib>
-#ifdef __linux__
-	#define CLEAR "clear"
-#elif _WIN32
-	#define CLEAR "cls"
-#endif
-
-using namespace std;
-
 #ifndef LIVROS_H_INCLUDED
 #define LIVROS_H_INCLUDED
 
-void imprimir_todos_livros(struct livros *cab_livros, struct alunos *cab_alunos);
+#include "cabecalho.h"
 
-struct livros *busca_livro(struct livros *cab, int id);
+void imprimir_todos_livros(struct livros **cab_livros, struct alunos **cab_alunos, int *id_livro);
 
-struct livros *busca_livro_ant(struct livros *cab, int id, struct livros **ant);
+void imprimir_livro(struct livros **cab_livros, struct alunos **cab_alunos, int *id_livro);
 
-void imprimir_livro(struct livros *cab, struct alunos *cab_alunos);
+void inserir_livro(struct livros **cab, int *id_livro);
 
-void inserir_livro(struct livros *cab, int id);
+void remover_livro(struct livros **cab, int *id_livro);
 
-void remover_livro(struct livros *cab);
+void emprestar_livro(struct alunos **cab_alunos, struct livros **cab_livros, int *id_aluno, int *id_livro);
 
-void emprestar_livro(struct livros *cab, struct alunos *cab_alunos);
-
-void devolver_livro(struct livros *cab, struct alunos *cab_alunos);
+void devolver_livro(struct alunos **cab_alunos, struct livros **cab_livros, int *id_aluno, int *id_livro);
 
 #endif // LIVROS_H_INCLUDED
