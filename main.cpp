@@ -2,7 +2,7 @@
 
 int main()
 {
-    struct alunos** cab_alunos = (struct alunos **) malloc (sizeof(struct alunos *)); //criação do cabeça de cada uma das listas encadeadas
+    struct alunos** cab_alunos = (struct alunos **) malloc (sizeof(struct alunos *));
 
     struct livros** cab_livros = (struct livros **) malloc (sizeof(struct livros *));
 
@@ -13,9 +13,25 @@ int main()
     int id_livro = 0;
     int num_infraestrutura = 0;
 
-    iniciar(cab_alunos, cab_livros, cab_infraestrutura, &id_aluno, &id_livro, &num_infraestrutura);
+    int qnt_aluno = 0;
+    int qnt_livro = 0;
+    int qnt_infraestrutura = 0;
 
     int opcao;
+
+    cout << "Escolha uma das opcoes abaixo: " << endl;
+    cout << "1 - Comecar do zero ou primeira inicializacao" << endl;
+    cout << "2 - Comecar da ultima sessao salva" << endl;
+    cout << "Digite a opcao: ";
+    cin >> opcao;
+
+    system(CLEAR);
+
+    if(opcao == 2){
+        iniciar_aluno(cab_alunos, &id_aluno, &qnt_aluno);
+        iniciar_livro(cab_livros, &id_livro, &qnt_livro);
+        iniciar_infraestrutura(cab_infraestrutura, &num_infraestrutura, &qnt_infraestrutura);
+    }
 
     int enq = 1;
     while(enq){
@@ -50,10 +66,10 @@ int main()
 
         switch (opcao){
             case 1:
-                inserir_aluno(cab_alunos, &id_aluno);
+                inserir_aluno(cab_alunos, &id_aluno, &qnt_aluno);
                 break;
             case 2:
-                remover_aluno(cab_alunos, &id_aluno);
+                remover_aluno(cab_alunos, &id_aluno, &qnt_aluno);
                 break;
             case 3:
                 imprimir_todos_alunos(cab_alunos, &id_aluno);
@@ -62,10 +78,10 @@ int main()
                 imprimir_aluno(cab_alunos, &id_aluno);
                 break;
             case 5:
-                inserir_livro(cab_livros, &id_livro);
+                inserir_livro(cab_livros, &id_livro, &qnt_livro);
                 break;
             case 6:
-                remover_livro(cab_livros, &id_livro);
+                remover_livro(cab_livros, &id_livro, &qnt_livro);
                 break;
             case 7:
                 imprimir_todos_livros(cab_livros, cab_alunos, &id_livro);
@@ -80,11 +96,10 @@ int main()
                 devolver_livro(cab_alunos, cab_livros, &id_aluno, &id_livro);
                 break;
             case 11:
-                num_infraestrutura++;
-                inserir_infraestrutura(cab_infraestrutura);
+                inserir_infraestrutura(cab_infraestrutura, &num_infraestrutura, &qnt_infraestrutura);
                 break;
             case 12:
-                remover_infraestrutura(cab_infraestrutura);
+                remover_infraestrutura(cab_infraestrutura, &qnt_infraestrutura);
                 break;
             case 13:
                 imprimir_toda_infraestrutura(cab_infraestrutura, cab_alunos);
@@ -99,7 +114,20 @@ int main()
                 devolver_infraestrutura(cab_infraestrutura, cab_alunos, &id_aluno);
                 break;
             case 17:
-                encerrar(cab_alunos,cab_livros, cab_infraestrutura, id_aluno, id_livro, num_infraestrutura);
+                int opcao;
+                cout << "Escolha uma das opcoes abaixo:" << endl;
+                cout << "1 - Encerrar sem salvar." << endl;
+                cout << "2 - Salvar e encerrar." << endl;
+                cout << "Digite a opcao: ";
+                cin >> opcao;
+                system(CLEAR);
+
+                if(opcao == 2){
+                    encerrar_aluno(cab_alunos, id_aluno, qnt_aluno);
+                    encerrar_livro(cab_livros, id_livro, qnt_livro);
+                    encerrar_infraestrutura(cab_infraestrutura, num_infraestrutura, qnt_livro);
+                }
+
                 enq = 0;
                 break;
             default:

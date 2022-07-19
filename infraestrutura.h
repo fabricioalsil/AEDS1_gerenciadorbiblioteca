@@ -11,9 +11,9 @@ struct infraestrutura *busca_infraestrutura_ant(struct infraestrutura *cab, int 
 
 void imprimir_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alunos);
 
-void inserir_infraestrutura(struct infraestrutura *cab);
+void inserir_infraestrutura(struct infraestrutura *cab, int *num_infraestrutura, int *qnt_infraestrutura);
 
-void remover_infraestrutura(struct infraestrutura *cab);
+void remover_infraestrutura(struct infraestrutura *cab, int *qnt_infraestrutura);
 
 void emprestar_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alunos, int *id_aluno);
 

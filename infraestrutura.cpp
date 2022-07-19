@@ -21,7 +21,7 @@ void imprimir_toda_infraestrutura(struct infraestrutura *cab_infraestrutura, str
         if(p->estado == 0)
             cout << "Disponivel!\n" << endl;
         else{
-            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno]->matricula << endl;
+            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno-1]->matricula << endl;
         }
         p = p->prox;
     }
@@ -63,14 +63,14 @@ void imprimir_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alu
         if(p->estado == 0)
             cout << "Disponivel!\n" << endl;
         else{
-            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno]->matricula << endl;
+            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno-1]->matricula << endl;
         }
     }else{
         cout << "ID nao encontrado." << endl;
     }
 }
 
-void inserir_infraestrutura(struct infraestrutura *cab) {
+void inserir_infraestrutura(struct infraestrutura *cab, int *num_infraestrutura, int *qnt_infraestrutura) {
     struct infraestrutura *ant = NULL;
     int id;
 
@@ -104,9 +104,11 @@ void inserir_infraestrutura(struct infraestrutura *cab) {
     else if(p->tipo == 3)
         cout << "Armario";
     cout << " cadastrado com sucesso!" << endl;
+    (*num_infraestrutura)++;
+    (*qnt_infraestrutura)++;
 }
 
-void remover_infraestrutura(struct infraestrutura *cab) {
+void remover_infraestrutura(struct infraestrutura *cab, int *qnt_infraestrutura) {
     struct infraestrutura *ant = NULL;
     struct infraestrutura *p;
     int id;
@@ -125,6 +127,7 @@ void remover_infraestrutura(struct infraestrutura *cab) {
             else if(p->tipo == 3)
                 cout << "Armario";
             cout << " removido com sucesso!" << endl;
+            (*qnt_infraestrutura)--;
             free(p);
         }else{
             if(p->tipo == 1)

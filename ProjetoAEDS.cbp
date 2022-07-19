@@ -36,6 +36,7 @@
 		<Unit filename="alunos.h" />
 		<Unit filename="arquivo.cpp" />
 		<Unit filename="arquivo.h" />
+		<Unit filename="cabecalho.h" />
 		<Unit filename="infraestrutura.cpp" />
 		<Unit filename="infraestrutura.h" />
 		<Unit filename="livros.cpp" />

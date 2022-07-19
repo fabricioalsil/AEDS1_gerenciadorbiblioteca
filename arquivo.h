@@ -17,9 +17,16 @@ using namespace std;
 #ifndef ARQUIVO_H_INCLUDED
 #define ARQUIVO_H_INCLUDED
 
-void iniciar(struct alunos **cab_alunos, struct livros **cab_livros, struct infraestrutura *cab_infraestrutura, int *id_alunos, int *id_livros, int *num_infraestrutura);
+void iniciar_aluno(struct alunos **cab_alunos, int *id_alunos, int *qnt_alunos);
 
-void encerrar(struct alunos **cab_alunos, struct livros **cab_livros, struct infraestrutura *cab_infraestrutura, int id_alunos, int id_livros, int num_infraestrutura);
+void iniciar_livro(struct livros **cab_livros, int *id_livros, int *qnt_livros);
 
+void iniciar_infraestrutura(struct infraestrutura *cab_infraestrutura, int *num_infraestrutura, int *qnt_infraestrutura);
+
+void encerrar_aluno(struct alunos **cab_alunos, int id_alunos, int qnt_alunos);
+
+void encerrar_livro(struct livros **cab_livros, int id_livros, int qnt_livros);
+
+void encerrar_infraestrutura(struct infraestrutura *cab_infraestrutura, int num_infraestrutura, int qnt_infraestrutura);
 
 #endif // ARQUIVO_H_INCLUDED

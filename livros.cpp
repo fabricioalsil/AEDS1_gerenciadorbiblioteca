@@ -14,7 +14,7 @@ void imprimir_todos_livros(struct livros **cab_livros, struct alunos **cab_aluno
         if(cab_livros[i]->estado == 0)
             cout << "Livro disponivel!\n" << endl;
         else{
-            cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[i]->id_aluno]->matricula << endl;
+            cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[i]->id_aluno-1]->matricula << endl;
         }
     }
 }
@@ -43,9 +43,9 @@ void imprimir_livro(struct livros **cab_livros, struct alunos **cab_alunos, int 
             if(cab_livros[i]->estado == 0)
                 cout << "Livro disponivel!\n" << endl;
             else{
-                cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[i]->id_aluno]->matricula << endl;
+                cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[i]->id_aluno-1]->matricula << endl;
+                }
             }
-        }
         if(contador == 0){
             cout << "Nehnum livro da categoria " << categoria <<" foi encontrado!\n" << endl;
         }
@@ -66,14 +66,14 @@ void imprimir_livro(struct livros **cab_livros, struct alunos **cab_alunos, int 
         if(cab_livros[idl-1]->estado == 0)
             cout << "Livro disponivel!\n" << endl;
         else{
-            cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[idl-1]->id_aluno]->matricula << endl;
+            cout << "Livro emprestado para o aluno de matricula: " << cab_alunos[cab_livros[idl-1]->id_aluno-1]->matricula << endl;
         }
     }else{
         cout << "ID nao encontrado." << endl;
     }
 }
 
-void inserir_livro(struct livros **cab, int *id_livro) {
+void inserir_livro(struct livros **cab, int *id_livro, int *qnt_livro) {
     (*id_livro)++;
     cab = (struct livros **)realloc(cab, (*id_livro)*sizeof(struct livros *));
     cab[(*id_livro)-1] = new livros();
@@ -89,9 +89,10 @@ void inserir_livro(struct livros **cab, int *id_livro) {
     cab[(*id_livro)-1]->estado = 0;
     system(CLEAR);
     cout << "Livro " << cab[(*id_livro)-1]->nome << " de " << cab[(*id_livro)-1]->ano << " cadastrado com sucesso!" << endl;
+    (*qnt_livro)++;
 }
 
-void remover_livro(struct livros **cab, int *id_livro) {
+void remover_livro(struct livros **cab, int *id_livro, int *qnt_livro) {
     int id;
     cout << "Digite o ID do livro que deseja remover: ";
     cin >> id;
@@ -105,6 +106,7 @@ void remover_livro(struct livros **cab, int *id_livro) {
     if (cab[id-1] != NULL) {
         if (cab[id-1]->estado == 0){
             cout << "Livro " << cab[id-1]->nome << " de " << cab[id-1]->ano << " removido com sucesso!" << endl;
+            (*qnt_livro)--;
             free(cab[id-1]);
             cab[id-1] = NULL;
         }else{
@@ -116,19 +118,19 @@ void remover_livro(struct livros **cab, int *id_livro) {
 }
 
 void emprestar_livro(struct alunos **cab_alunos, struct livros **cab_livros, int *id_aluno, int *id_livro){
-    int id;
+    int idl;
     cout << "Digite o ID do livro que deseja emprestar: ";
-    cin >> id;
+    cin >> idl;
 
-    if(id < 1 || id > (*id_livro)){
+    if(idl < 1 || idl > (*id_livro)){
         cout << "ID nao encontrado!" << endl;
         return;
     }
 
-    if(cab_livros[id-1]==NULL){
+    if(cab_livros[idl-1]==NULL){
         cout << "Livro nao encontrado" << endl;
         return;
-    }if(cab_livros[id-1]->estado!=0){
+    }if(cab_livros[idl-1]->estado!=0){
         cout << "Livro ja esta emprestado" << endl;
         return;
     }
@@ -152,9 +154,9 @@ void emprestar_livro(struct alunos **cab_alunos, struct livros **cab_livros, int
     system(CLEAR);
 
     cout << "Livro emprestado com sucesso!" << endl;
-    cab_alunos[id-1]->pendencia++;
-    cab_livros[ida-1]->id_aluno = cab_alunos[id-1]->id;
-    cab_livros[ida-1]->estado = 1;
+    cab_alunos[ida-1]->pendencia++;
+    cab_livros[idl-1]->id_aluno = cab_alunos[ida-1]->id;
+    cab_livros[idl-1]->estado = 1;
 }
 
 void devolver_livro(struct alunos **cab_alunos, struct livros **cab_livros, int *id_aluno, int *id_livro){

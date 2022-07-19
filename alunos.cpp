@@ -38,7 +38,7 @@ void imprimir_aluno(struct alunos **cab, int *id_aluno){
     }
 }
 
-void inserir_aluno(struct alunos **cab, int *id_aluno) {
+void inserir_aluno(struct alunos **cab, int *id_aluno, int *qnt_aluno) {
     (*id_aluno)++;
     cab = (struct alunos **)realloc(cab, (*id_aluno)*sizeof(struct alunos *));
     cab[(*id_aluno)-1] = new alunos();
@@ -52,9 +52,10 @@ void inserir_aluno(struct alunos **cab, int *id_aluno) {
     cab[(*id_aluno)-1]->pendencia = 0;
     system(CLEAR);
     cout << "Aluno " << cab[(*id_aluno)-1]->nome << " cadastrado com sucesso!" << endl;
+    (*qnt_aluno)++;
 }
 
-void remover_aluno(struct alunos **cab, int *id_aluno) {
+void remover_aluno(struct alunos **cab, int *id_aluno, int *qnt_aluno) {
     int id;
     cout << "Digite o ID do aluno que deseja remover: ";
     cin >> id;
@@ -68,6 +69,7 @@ void remover_aluno(struct alunos **cab, int *id_aluno) {
     if (cab[id-1] != NULL) {
         if(cab[id-1]->pendencia == 0){
             cout << "Aluno " << cab[id-1]->nome << " removido com sucesso!" << endl;
+            (*qnt_aluno)--;
             free(cab[id-1]);
             cab[id-1] = NULL;
         }else{
