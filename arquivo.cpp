@@ -1,6 +1,6 @@
 #include "cabecalho.h"
 
-void iniciar_aluno(struct alunos **cab_alunos, int *id_alunos, int *qnt_alunos){
+void iniciar_aluno(struct alunos *cab_alunos, int *id_alunos, int *qnt_alunos){
 
     string copiar;
     int id;
@@ -10,27 +10,28 @@ void iniciar_aluno(struct alunos **cab_alunos, int *id_alunos, int *qnt_alunos){
     (*id_alunos) = stoi(copiar);
     getline(arquivo, copiar);
     (*qnt_alunos) = stoi(copiar);
-    cab_alunos = (struct alunos **)realloc(cab_alunos, (*id_alunos)*sizeof(struct alunos*));
+    struct alunos* p;
+    struct alunos* ant = cab_alunos;
     for(int i=0; i<(*qnt_alunos); i++){
-        cab_alunos[i] = new alunos();
+        p = ant->prox;
+        p = new alunos();
+        ant->prox = p;
         getline(arquivo, copiar);
         id = stoi(copiar);
-        while((i+1)<id){
-            cab_alunos[i] = NULL;
-            i++;
-        }
-        cab_alunos[i]->id = id;
-        getline(arquivo, cab_alunos[i]->nome);
-        getline(arquivo, cab_alunos[i]->matricula);
+        p->id = id;
+        getline(arquivo, p->nome);
+        getline(arquivo, p->matricula);
         getline(arquivo, copiar);
-        cab_alunos[i]->pendencia = stoi(copiar);
+        p->pendencia = stoi(copiar);
+        p->prox = NULL;
+        ant = p;
     }
 
     arquivo.close();
     return;
 }
 
-void iniciar_livro(struct livros **cab_livros, int *id_livros, int *qnt_livros){
+void iniciar_livro(struct livros *cab_livros, int *id_livros, int *qnt_livros){
 
     string copiar;
     int id;
@@ -40,24 +41,25 @@ void iniciar_livro(struct livros **cab_livros, int *id_livros, int *qnt_livros){
     (*id_livros) = stoi(copiar);
     getline(arquivo, copiar);
     (*qnt_livros) = stoi(copiar);
-    cab_livros = (struct livros **)realloc(cab_livros, (*id_livros)*sizeof(struct livros*));
+    struct livros* p;
+    struct livros* ant = cab_livros;
     for(int i=0; i<(*qnt_livros); i++){
-        cab_livros[i] = new livros();
+        p = ant->prox;
+        p = new livros();
+        ant->prox = p;
         getline(arquivo, copiar);
         id = stoi(copiar);
-        while((i+1)<id){
-            cab_livros[i] = NULL;
-            i++;
-        }
-        cab_livros[i]->id = id;
-        getline(arquivo, cab_livros[i]->nome);
-        getline(arquivo, cab_livros[i]->categoria);
+        p->id = id;
+        getline(arquivo, p->nome);
         getline(arquivo, copiar);
-        cab_livros[i]->id = stoi(copiar);
+        p->id = stoi(copiar);
+        getline(arquivo, p->categoria);
         getline(arquivo, copiar);
-        cab_livros[i]->estado = stoi(copiar);
+        p->estado = stoi(copiar);
         getline(arquivo, copiar);
-        cab_livros[i]->id_aluno = stoi(copiar);
+        p->id_aluno = stoi(copiar);
+        p->prox = NULL;
+        ant = p;
     }
 
     arquivo.close();
@@ -91,21 +93,22 @@ void iniciar_infraestrutura(struct infraestrutura *cab_infraestrutura, int *num_
     return;
 }
 
-void encerrar_aluno(struct alunos **cab_alunos, int id_alunos, int qnt_alunos){
+void encerrar_aluno(struct alunos *cab_alunos, int id_alunos, int qnt_alunos){
 
     ofstream arquivo("aluno.txt");
 
     arquivo << id_alunos << endl;
     arquivo << qnt_alunos << endl;
-    for(int i=0; i < id_alunos; i++){
-        if(cab_alunos[i]==NULL)
-            continue;
-        arquivo << cab_alunos[i]->id << endl;
-        arquivo << cab_alunos[i]->nome << endl;
-        arquivo << cab_alunos[i]->matricula << endl;
-        arquivo << cab_alunos[i]->pendencia << endl;
-        free(cab_alunos[i]);
-        cab_alunos[i] = NULL;
+    struct alunos *p = cab_alunos->prox;
+    struct alunos *ant = cab_alunos->prox;
+    while(p != NULL){
+        arquivo << p->id << endl;
+        arquivo << p->nome << endl;
+        arquivo << p->matricula << endl;
+        arquivo << p->pendencia << endl;
+        p = p->prox;
+        free(ant);
+        ant = p;
     }
 
     free(cab_alunos);
@@ -113,23 +116,24 @@ void encerrar_aluno(struct alunos **cab_alunos, int id_alunos, int qnt_alunos){
     return;
 }
 
-void encerrar_livro(struct livros **cab_livros, int id_livros, int qnt_livros){
+void encerrar_livro(struct livros *cab_livros, int id_livros, int qnt_livros){
 
     ofstream arquivo("livro.txt");
 
     arquivo << id_livros << endl;
     arquivo << qnt_livros << endl;
-    for(int i=0; i < id_livros; i++){
-        if(cab_livros[i]==NULL)
-            continue;
-        arquivo << cab_livros[i]->id << endl;
-        arquivo << cab_livros[i]->nome << endl;
-        arquivo << cab_livros[i]->ano<< endl;
-        arquivo << cab_livros[i]->categoria << endl;
-        arquivo << cab_livros[i]->estado << endl;
-        arquivo << cab_livros[i]->id_aluno << endl;
-        free(cab_livros[i]);
-        cab_livros[i] = NULL;
+    struct livros *p = cab_livros->prox;
+    struct livros *ant = cab_livros->prox;
+    while(p != NULL){
+        arquivo << p->id << endl;
+        arquivo << p->nome << endl;
+        arquivo << p->ano<< endl;
+        arquivo << p->categoria << endl;
+        arquivo << p->estado << endl;
+        arquivo << p->id_aluno << endl;
+        p = p->prox;
+        free(ant);
+        ant = p;
     }
 
     free(cab_livros);

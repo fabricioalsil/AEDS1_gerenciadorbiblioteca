@@ -2,9 +2,11 @@
 
 int main()
 {
-    struct alunos** cab_alunos = (struct alunos **) malloc (sizeof(struct alunos *));
+    struct alunos* cab_alunos = new alunos(); //criação do cabeça de cada uma das listas encadeadas
+    cab_alunos->prox = NULL;
 
-    struct livros** cab_livros = (struct livros **) malloc (sizeof(struct livros *));
+    struct livros* cab_livros = new livros();
+    cab_livros->prox = NULL;
 
     struct infraestrutura* cab_infraestrutura = new infraestrutura();
     cab_infraestrutura->prox = NULL;
@@ -69,31 +71,31 @@ int main()
                 inserir_aluno(cab_alunos, &id_aluno, &qnt_aluno);
                 break;
             case 2:
-                remover_aluno(cab_alunos, &id_aluno, &qnt_aluno);
+                remover_aluno(cab_alunos, &qnt_aluno);
                 break;
             case 3:
-                imprimir_todos_alunos(cab_alunos, &id_aluno);
+                imprimir_todos_alunos(cab_alunos);
                 break;
             case 4:
-                imprimir_aluno(cab_alunos, &id_aluno);
+                imprimir_aluno(cab_alunos);
                 break;
             case 5:
                 inserir_livro(cab_livros, &id_livro, &qnt_livro);
                 break;
             case 6:
-                remover_livro(cab_livros, &id_livro, &qnt_livro);
+                remover_livro(cab_livros, &qnt_livro);
                 break;
             case 7:
-                imprimir_todos_livros(cab_livros, cab_alunos, &id_livro);
+                imprimir_todos_livros(cab_livros, cab_alunos);
                 break;
             case 8:
-                imprimir_livro(cab_livros, cab_alunos, &id_livro);
+                imprimir_livro(cab_livros, cab_alunos);
                 break;
             case 9:
-                emprestar_livro(cab_alunos, cab_livros, &id_aluno, &id_livro);
+                emprestar_livro(cab_alunos, cab_livros);
                 break;
             case 10:
-                devolver_livro(cab_alunos, cab_livros, &id_aluno, &id_livro);
+                devolver_livro(cab_alunos, cab_livros);
                 break;
             case 11:
                 inserir_infraestrutura(cab_infraestrutura, &num_infraestrutura, &qnt_infraestrutura);
@@ -108,10 +110,10 @@ int main()
                 imprimir_infraestrutura(cab_infraestrutura, cab_alunos);
                 break;
             case 15:
-                emprestar_infraestrutura(cab_infraestrutura, cab_alunos, &id_aluno);
+                emprestar_infraestrutura(cab_infraestrutura, cab_alunos);
                 break;
             case 16:
-                devolver_infraestrutura(cab_infraestrutura, cab_alunos, &id_aluno);
+                devolver_infraestrutura(cab_infraestrutura, cab_alunos);
                 break;
             case 17:
                 int opcao;
@@ -125,7 +127,7 @@ int main()
                 if(opcao == 2){
                     encerrar_aluno(cab_alunos, id_aluno, qnt_aluno);
                     encerrar_livro(cab_livros, id_livro, qnt_livro);
-                    encerrar_infraestrutura(cab_infraestrutura, num_infraestrutura, qnt_livro);
+                    encerrar_infraestrutura(cab_infraestrutura, num_infraestrutura, qnt_infraestrutura);
                 }
 
                 enq = 0;

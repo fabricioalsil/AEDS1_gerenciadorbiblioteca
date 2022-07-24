@@ -1,6 +1,7 @@
 #include "cabecalho.h"
 
-void imprimir_toda_infraestrutura(struct infraestrutura *cab_infraestrutura, struct alunos **cab_alunos) {
+void imprimir_toda_infraestrutura(struct infraestrutura *cab_infraestrutura, struct alunos *cab_alunos) {
+    struct alunos *aluno;
 
     if (cab_infraestrutura->prox == NULL) {
         cout << "Nenhuma infraestrutura cadastrada!" << endl;
@@ -8,7 +9,6 @@ void imprimir_toda_infraestrutura(struct infraestrutura *cab_infraestrutura, str
     }
 
     struct infraestrutura *p = cab_infraestrutura->prox;
-
     cout << "Infraestruturas cadastradas:" << endl;
     while (p != NULL) {
         if(p->tipo == 1)
@@ -21,7 +21,8 @@ void imprimir_toda_infraestrutura(struct infraestrutura *cab_infraestrutura, str
         if(p->estado == 0)
             cout << "Disponivel!\n" << endl;
         else{
-            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno-1]->matricula << endl;
+            aluno = busca_aluno(cab_alunos, p->id_aluno);
+            cout << "Sendo usado pelo aluno de matricula: " << aluno->matricula << endl;
         }
         p = p->prox;
     }
@@ -44,7 +45,8 @@ struct infraestrutura *busca_infraestrutura_ant(struct infraestrutura *cab, int 
     return p;
 }
 
-void imprimir_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alunos){
+void imprimir_infraestrutura(struct infraestrutura *cab, struct alunos *cab_alunos){
+    struct alunos *aluno;
 
     int id;
     cout << "Digite o ID deseja buscar: ";
@@ -63,7 +65,8 @@ void imprimir_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alu
         if(p->estado == 0)
             cout << "Disponivel!\n" << endl;
         else{
-            cout << "Sendo usado pelo aluno de matricula: " << cab_alunos[p->id_aluno-1]->matricula << endl;
+            aluno = busca_aluno(cab_alunos, p->id_aluno);
+            cout << "Sendo usado pelo aluno de matricula: " << aluno->matricula << endl;
         }
     }else{
         cout << "ID nao encontrado." << endl;
@@ -143,34 +146,31 @@ void remover_infraestrutura(struct infraestrutura *cab, int *qnt_infraestrutura)
     }
 }
 
-void emprestar_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alunos, int *id_aluno){
+void emprestar_infraestrutura(struct infraestrutura *cab, struct alunos *cab_alunos){
     int id_infraestrutura;
-    int ida;
+    int id_aluno;
     struct infraestrutura *infraestrutura;
+    struct alunos *aluno;
 
     cout << "Digite o ID da infraestrutura que deseja ocupar: ";
     cin >> id_infraestrutura;
 
     infraestrutura = busca_infraestrutura(cab, id_infraestrutura);
-    if(infraestrutura!=NULL && infraestrutura->id!=id_infraestrutura){
+    if(infraestrutura==NULL){
         cout << "Nao encontrado" << endl;
         return;
     }if(infraestrutura->estado!=0){
-        cout << "A infraestrutura ja esta emprestada" << endl;
+        cout << "A infraestrutura ja esta ocupada" << endl;
         return;
     }
 
     system(CLEAR);
 
     cout << "Digite o ID do aluno que deseja ocupar a infraestrutura: ";
-    cin >> ida;
+    cin >> id_aluno;
 
-    if(ida < 1 || ida > (*id_aluno)){
-        cout << "ID nao encontrado!" << endl;
-        return;
-    }
-
-    if(cab_alunos[ida-1]==NULL){
+    aluno = busca_aluno(cab_alunos, id_aluno);
+    if(aluno==NULL || aluno->id!=id_aluno){
         cout << "Aluno não encontrado" << endl;
         return;
     }
@@ -178,28 +178,25 @@ void emprestar_infraestrutura(struct infraestrutura *cab, struct alunos **cab_al
     system(CLEAR);
 
     cout << "Infraestrutura ocupada com sucesso!" << endl;
-    cab_alunos[ida-1]->pendencia++;
-    infraestrutura->id_aluno = cab_alunos[ida-1]->id;
+    aluno->pendencia++;
+    infraestrutura->id_aluno = aluno->id;
     infraestrutura->estado = 1;
 }
 
-void devolver_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alunos, int *id_aluno){
+void devolver_infraestrutura(struct infraestrutura *cab, struct alunos *cab_alunos){
     int id_infraestrutura;
-    int ida;
+    int id_aluno;
     struct infraestrutura *infraestrutura;
+    struct alunos *aluno;
 
     cout << "Digite o ID do aluno que deseja desocupar a infraestrutura: ";
-    cin >> ida;
+    cin >> id_aluno;
 
-    if(ida < 1 || ida > (*id_aluno)){
-        cout << "ID nao encontrado!" << endl;
-        return;
-    }
-
-    if(cab_alunos[ida-1]==NULL){
+    aluno = busca_aluno(cab_alunos, id_aluno);
+    if(aluno==NULL || aluno->id!=id_aluno){
         cout << "Aluno nao encontrado" << endl;
         return;
-    }if(cab_alunos[ida-1]->pendencia == 0){
+    }if(aluno->pendencia == 0){
         cout << "Aluno nao possui pendencias" << endl;
         return;
     }
@@ -210,13 +207,13 @@ void devolver_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alu
     cin >> id_infraestrutura;
 
     infraestrutura = busca_infraestrutura(cab, id_infraestrutura);
-    if(infraestrutura!=NULL && infraestrutura->id!=id_infraestrutura){
-        cout << "Infraestrutura encontrada" << endl;
+    if(infraestrutura==NULL){
+        cout << "Infraestrutura nao encontrada" << endl;
         return;
     }if(infraestrutura->estado == 0){
         cout << "A infraestrutura ja se encontra disponivel" << endl;
         return;
-    }if(infraestrutura->id_aluno != cab_alunos[ida-1]->id){
+    }if(infraestrutura->id_aluno != aluno->id){
         cout << "A infraestrutura se encontra ocupada com outro aluno" << endl;
         return;
     }
@@ -225,5 +222,5 @@ void devolver_infraestrutura(struct infraestrutura *cab, struct alunos **cab_alu
 
     cout << "Infraestrutura desocupada com sucesso" << endl;
     infraestrutura->estado = 0;
-    cab_alunos[ida-1]->pendencia--;
+    aluno->pendencia--;
 }

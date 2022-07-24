@@ -1,35 +1,53 @@
 #include "cabecalho.h"
 
-void imprimir_todos_alunos(struct alunos **cab, int *id_aluno) {
-    if ((*id_aluno) == 0) {
-        cout << "Nenhum aluno foi cadastrado!" << endl;
+void imprimir_todos_alunos(struct alunos *cab_alunos) {
+    if (cab_alunos->prox == NULL) {
+        cout << "Nenhum aluno foi matriculado!" << endl;
         return;
     }
 
+    struct alunos *p = cab_alunos->prox;
     cout << "Alunos cadastrados:" << endl;
-
-    for(int i=0; i < (*id_aluno); i++) {
-        cout << "Nome: " << cab[i]->nome << "; ID: " << cab[i]->id << endl;
-        if(cab[i]->pendencia == 0)
+    while (p != NULL) {
+        cout << "Nome: " << p->nome << "; ID: " << p->id << endl;
+        if(p->pendencia == 0)
             cout << "Nao possui pendencias\n" << endl;
         else
             cout << "Possui pendencias\n" << endl;
+        p = p->prox;
     }
 }
 
-void imprimir_aluno(struct alunos **cab, int *id_aluno){
+struct alunos *busca_aluno(struct alunos *cab, int id) {
+    struct alunos *p = cab->prox;
+    while (p != NULL && p->id < id)
+        p = p->prox;
+    return p;
+}
+
+struct alunos *busca_aluno_ant(struct alunos *cab, int id, struct alunos **ant) {
+    (*ant) = cab;
+    struct alunos *p = cab->prox;
+    while (p != NULL && p->id < id) {
+        (*ant) = p;
+        p = p->prox;
+    }
+    // p = null  : se chave 'k' nao encontrada.
+    // p != null : se p->c = k, entao chave encontrada. Senao, chave nao encontrada.
+    return p;
+}
+
+void imprimir_aluno(struct alunos *cab){
+
     int id;
     cout << "Digite o ID do aluno que deseja buscar: ";
     cin >> id;
 
-    if(id < 1 || id > (*id_aluno)){
-        cout << "ID nao encontrado!" << endl;
-        return;
-    }
+    struct alunos *p = busca_aluno(cab, id);
 
-    if(cab[id-1] != NULL){
-        cout << "Nome: " << cab[id-1]->nome << "; ID: " << cab[id-1]->id << endl;
-        if(cab[id-1]->pendencia == 0)
+    if(p != NULL && p->id == id){
+        cout << "Nome: " << p->nome << "; ID: " << p->id << endl;
+        if(p->pendencia == 0)
             cout << "Nao possui pendencias.\n" << endl;
         else
             cout << "Possui pendencias.\n" << endl;
@@ -38,44 +56,46 @@ void imprimir_aluno(struct alunos **cab, int *id_aluno){
     }
 }
 
-void inserir_aluno(struct alunos **cab, int *id_aluno, int *qnt_aluno) {
-    (*id_aluno)++;
-    cab = (struct alunos **)realloc(cab, (*id_aluno)*sizeof(struct alunos *));
-    cab[(*id_aluno)-1] = new alunos();
+void inserir_aluno(struct alunos *cab, int *id_aluno, int *qnt_aluno) {
+    struct alunos *ant = NULL;
+    struct alunos *p = busca_aluno_ant(cab, *id_aluno, &ant);
+
+    p = new alunos();
+    p->prox = ant->prox;
+    ant->prox = p;
 
     cout << "Digite o nome do aluno: ";
     cin.ignore();
-    getline(cin, cab[(*id_aluno)-1]->nome);
+    getline(cin, p->nome);
     cout << "Digite a matricula: ";
-    getline(cin, cab[(*id_aluno)-1]->matricula);
-    cab[(*id_aluno)-1]->id = (*id_aluno);
-    cab[(*id_aluno)-1]->pendencia = 0;
+    getline(cin, p->matricula);
+    p->id = *id_aluno;
+    p->pendencia = 0;
     system(CLEAR);
-    cout << "Aluno " << cab[(*id_aluno)-1]->nome << " cadastrado com sucesso!" << endl;
+    cout << "Aluno " << p->nome << " cadastrado com sucesso!" << endl;
+    (*id_aluno)++;
     (*qnt_aluno)++;
 }
 
-void remover_aluno(struct alunos **cab, int *id_aluno, int *qnt_aluno) {
+void remover_aluno(struct alunos *cab, int *qnt_aluno) {
+    struct alunos *ant = NULL;
+    struct alunos *p;
     int id;
     cout << "Digite o ID do aluno que deseja remover: ";
     cin >> id;
-
-    if(id < 1 || id > (*id_aluno)){
-        cout << "ID nao encontrado!" << endl;
-        return;
-    }
+    p = busca_aluno_ant(cab, id, &ant);
 
     system(CLEAR);
-    if (cab[id-1] != NULL) {
-        if(cab[id-1]->pendencia == 0){
-            cout << "Aluno " << cab[id-1]->nome << " removido com sucesso!" << endl;
+    if (p != NULL) {
+        if(p->pendencia == 0){
+            ant->prox = p->prox;
+            cout << "Aluno " << p->nome << " removido com sucesso!" << endl;
             (*qnt_aluno)--;
-            free(cab[id-1]);
-            cab[id-1] = NULL;
+            free(p);
         }else{
-            cout << "O aluno " << cab[id-1]->nome << " nao pode ser removido por possuir pendencias!" << endl;
+            cout << "O aluno " << p->nome << " nao pode ser removido por possuir pendencias!" << endl;
         }
     }else {
-        cout << "ID nao encontrado!" << endl;
+        cout << "Aluno de ID: " << id << " nao encontrado!" << endl;
     }
 }
